@@ -2,12 +2,26 @@ package main
 
 import (
 	"encoding/json"
+	"flag"
 	"fmt"
 	"io"
+	"lain/bruteforce"
 	"lain/lain"
 	"net/http"
 )
 
+func main() {
+	proxy := flag.String("proxy", "", "connect server proxy setting")
+	thread := flag.Int("thread", 512, "download thread count")
+	version := flag.String("version", GetGameVersion(), "internal game version metadata")
+	path := flag.String("path", "Media", "file download path")
+	flag.Parse()
+
+	assetsBaseUrl := GetAddressablesCatalogURL(GetAssetMetaData())
+	assetsMediaList := GetAssetMediaList(assetsBaseUrl)
+	bruteforce.Start(assetsBaseUrl, *thread, assetsMediaList, *path, *version, *proxy)
+	fmt.Println("Congratulations. ")
+}
 func GetAddressablesCatalogURL(in lain.BA_JP_VERSION_METADATA) string {
 	return in.ConnectionGroups[0].OverrideConnectionGroups[1].AddressablesCatalogURLRoot
 }

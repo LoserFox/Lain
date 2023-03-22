@@ -22,9 +22,10 @@ var mu sync.Mutex
 var assetsBaseUrl string
 var downloadPath = "Media"
 
-func Start(thread int, assetsMediaList lain.BA_JP_MEDIA_DATA, downloadpath string, gameVersion string, proxyUrl string) {
+func Start(assetsbaseUrl string, thread int, assetsMediaList lain.BA_JP_MEDIA_DATA, downloadpath string, gameVersion string, proxyUrl string) {
 	downloadPath = downloadpath
 	GameVersion = gameVersion
+	assetsBaseUrl = assetsbaseUrl
 	if proxyUrl != "" {
 		proxy, _ := url.Parse(proxyUrl)
 		HttpClient.Transport = &http.Transport{Proxy: http.ProxyURL(proxy)}
